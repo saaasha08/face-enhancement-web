@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Face Image Enhancement</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Face Image Enhancement for Recognition</h1>
+    <p class="sub">
+      Upload a face image → Normalization + denoise + edge-safe sharpening → View & download.
+    </p>
+
+    <form class="card" action="/process" method="POST" enctype="multipart/form-data">
+      <label class="filebox">
+        <input type="file" name="image" accept="image/*" required />
+        <span>Select an image</span>
+      </label>
+      <button type="submit">Enhance Image</button>
+    </form>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if original_url and enhanced_url %}
+      <div class="grid">
+        <div class="panel">
+          <h2>Original</h2>
+          <img src="{{ original_url }}" alt="Original image">
+        </div>
+
+        <div class="panel">
+          <h2>Enhanced</h2>
+          <img src="{{ enhanced_url }}" alt="Enhanced image">
+          <a class="download" href="{{ download_url }}">Download Enhanced Image</a>
+        </div>
+      </div>
+    {% endif %}
+
+    <footer>
+      <small>Tip: Face-cropped images give best results.</small>
+    </footer>
+  </div>
+</body>
+</html>
